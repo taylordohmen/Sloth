@@ -1,0 +1,5 @@
+*.yy.c
+*.tab.*
+*.log
+*.o
+sloth

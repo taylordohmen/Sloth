@@ -66,9 +66,9 @@ stmt: id ASSIGN expr SEMICOLON { $$ = make_node(ASSIGN, 0, "");
 									attach_node($$, $4);
 									}
 	| IF expr THEN stmts { $$ = make_node(IF, 0, "");
-						attach_node($$, $2);
-						attach_node($$, $4);
-						}
+							attach_node($$, $2);
+							attach_node($$, $4);
+							}
 	| IF expr THEN stmts ELSE stmts { $$ = make_node(IF, 0, "");
 									attach_node($$, $2);
 									attach_node($$, $4);
@@ -88,25 +88,25 @@ orterm: orterm AND andterm { $$ = make_node(AND, 0, "");
 	| andterm {}
 
 andterm: andterm LESS compterm { $$ = make_node(LESS, 0, "");
-							attach_node($$, $1);
-							attach_node($$, $3);
-							}
+								attach_node($$, $1);
+								attach_node($$, $3);
+								}
 	| andterm LESSEQ compterm { $$ = make_node(LESSEQ, 0, "");
-							attach_node($$, $1);
-							attach_node($$, $3);
-							}
+								attach_node($$, $1);
+								attach_node($$, $3);
+								}
 	| andterm EQUALS compterm { $$ = make_node(EQUALS, 0, "");
-							attach_node($$, $1);
-							attach_node($$, $3);
-							}
+								attach_node($$, $1);
+								attach_node($$, $3);
+								}
 	| andterm NEQUALS compterm { $$ = make_node(NEQUALS, 0, "");
-							attach_node($$, $1);
-							attach_node($$, $3);
-							}
+								attach_node($$, $1);
+								attach_node($$, $3);
+								}
 	| andterm GREATER compterm { $$ = make_node(GREATER, 0, "");
-							attach_node($$, $1);
-							attach_node($$, $3);
-							}
+								attach_node($$, $1);
+								attach_node($$, $3);
+								}
 	| andterm GREATEREQ compterm { $$ = make_node(GREATEREQ, 0, "");
 								attach_node($$, $1);
 								attach_node($$, $3);
@@ -114,19 +114,19 @@ andterm: andterm LESS compterm { $$ = make_node(LESS, 0, "");
 	| compterm {}
 
 compterm: compterm PLUS addterm { $$ = make_node(PLUS, 0, "");
-							attach_node($$, $1);
-							attach_node($$, $3);
-							}
-		| compterm MINUS addterm { $$ = make_node(MINUS, 0, "");
 								attach_node($$, $1);
 								attach_node($$, $3);
 								}
+		| compterm MINUS addterm { $$ = make_node(MINUS, 0, "");
+									attach_node($$, $1);
+									attach_node($$, $3);
+									}
 		| addterm {}
 
 addterm: addterm TIMES factor { $$ = make_node(TIMES, 0, "");
-							attach_node($$, $1);
-							attach_node($$, $3);
-							}
+								attach_node($$, $1);
+								attach_node($$, $3);
+								}
 		| addterm DIVIDE factor { $$ = make_node(DIVIDE, 0, "");
 								attach_node($$, $1);
 								attach_node($$, $3);
@@ -138,7 +138,8 @@ factor: NOT notterm { $$ = make_node(NOT, 0, "");
 					}
 	| notterm {}
 
-notterm: VALUE { $$ = make_node(VALUE, $1, ""); }
+notterm: OPAREN expr CPAREN {}
+	| VALUE { $$ = make_node(VALUE, $1, ""); }
 	| IDENTIFIER { $$ = make_node(IDENTIFIER, 0, $1); }
 	| INPUT { $$ = make_node(INPUT, 0, ""); }
 

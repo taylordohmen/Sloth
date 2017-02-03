@@ -2,7 +2,7 @@
 	#include <stdio.h>
 	#include "parsetree.h"
 	int yywrap();
-	void yyerror(const char** str);
+	void yyerror(const char* str);
 	struct Node* result;
 %}
 
@@ -62,9 +62,9 @@ stmt: id ASSIGN expr SEMICOLON { $$ = make_node(ASSIGN, 0, "");
 							attach_node($$, $2);
 							}
 	| WHILE expr DO stmts { $$ = make_node(WHILE, 0, "");
-									attach_node($$, $2);
-									attach_node($$, $4);
-									}
+							attach_node($$, $2);
+							attach_node($$, $4);
+							}
 	| IF expr THEN stmts { $$ = make_node(IF, 0, "");
 							attach_node($$, $2);
 							attach_node($$, $4);
@@ -152,7 +152,7 @@ int yywrap() {
 	return 1;
 }
 
-void yyerror(const char** str) {
+void yyerror(const char* str) {
 	fprintf(stderr, "COMPILER ERROR: '%s'.\n", str);
 }
 

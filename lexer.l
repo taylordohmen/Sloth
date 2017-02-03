@@ -12,8 +12,8 @@ CHAR [a-zA-Z]
 [\t\n] {}
 " " {}
 "%".* {}
-"+" {return  PLUS;}
-"-" {return  MINUS;}
+"+" {return PLUS;}
+"-" {return MINUS;}
 "/" {return DIVIDE;}
 "*" {return TIMES;}
 "<" {return LESS;}

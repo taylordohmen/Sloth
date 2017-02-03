@@ -27,7 +27,7 @@
 %token IF 
 %precedence THEN 
 %precedence ELSE 
-%token WHILE 
+%token WHILE
 %token DO 
 %token PRINT 
 %token INPUT 

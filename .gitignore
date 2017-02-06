@@ -2,4 +2,5 @@
 *.tab.*
 *.log
 *.o
+.txt
 sloth

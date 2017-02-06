@@ -63,6 +63,7 @@ void print_tree(struct Node* node, int tabs) {
     case PRINT: printf("PRINT:\n"); break;
     case INPUT: printf("INPUT:\n"); break;
     case STATEMENT: printf("STATEMENT:\n"); break;
+    case OPAREN: printf("PAREN\n"); break;
     default:
       printf("Error, %d not a valid node type.\n", node->type);
       exit(1);

@@ -138,7 +138,12 @@ factor: NOT notterm { $$ = make_node(NOT, 0, "");
 					}
 	| notterm {}
 
-notterm: OPAREN expr CPAREN {}
+notterm: OPAREN expr CPAREN { $$ = make_node(OPAREN, 0, "");
+							attach_node($$, $2);
+							}
+	| NOT notterm { $$ = make_node(NOT, 0, "");
+					attach_node($$, $2);
+					}
 	| VALUE { $$ = make_node(VALUE, $1, ""); }
 	| IDENTIFIER { $$ = make_node(IDENTIFIER, 0, $1); }
 	| INPUT { $$ = make_node(INPUT, 0, ""); }

@@ -25,8 +25,6 @@ void printVars() {
 
 void eval_stmt(struct Node* node) {
 
-	// printVars();
-
 	struct Var* var;
 	std::string id;
 
@@ -58,7 +56,7 @@ void eval_stmt(struct Node* node) {
 			break;
 
 		case WHILE:
-			while (node->children[0] != 0) {
+			while (eval_expr(node->children[0]) != 0) {
 				eval_stmt(node->children[1]);
 			}
 		

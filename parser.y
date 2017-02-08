@@ -174,7 +174,9 @@ int main(int argc, char **argv) {
 
 	printf("RESULT\n");
 	eval_stmt(result);
-	// printVars();
+
+	printf("\n");
+	printVars();
 
 	fclose(stdin);
 	stdin = orig_stdin;

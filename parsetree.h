@@ -1,3 +1,4 @@
+#include <string.h>
 
 #define ID_SIZE 100
 #define MAX_CHILDREN 3
@@ -13,6 +14,8 @@ struct Node {
 	int num_children;
 	struct Node* children[MAX_CHILDREN];
 };
+
+
 
 struct Node* make_node(int type, double value, char* id);
 

@@ -1,7 +1,9 @@
 %{
 	#include <stdio.h>
 	#include "parsetree.h"
+	#include "executor.h"
 	int yywrap();
+	int yylex();
 	void yyerror(const char* str);
 	struct Node* result;
 %}
@@ -162,8 +164,17 @@ void yyerror(const char* str) {
 }
 
 int main(int argc, char **argv) {
+	
+	FILE* orig_stdin = stdin;
 	stdin = fopen(argv[1], "r");
+	
 	yyparse();
-	print_tree(result, 0);
+	//print_tree(result, 0);
+
+	eval_stmt(result);
+
+	fclose(stdin);
+	stdin = orig_stdin;
+	
 	return 0;
 }

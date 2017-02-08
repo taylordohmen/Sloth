@@ -170,13 +170,13 @@ int main(int argc, char **argv) {
 	stdin = fopen(argv[1], "r");
 	
 	yyparse();
-	print_tree(result, 0);
+	// print_tree(result, 0);
 
-	printf("RESULT\n");
+	// printf("RESULT\n");
 	eval_stmt(result);
 
-	printf("\n");
-	printVars();
+	// printf("\n");
+	// printVars();
 
 	fclose(stdin);
 	stdin = orig_stdin;

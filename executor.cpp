@@ -59,11 +59,13 @@ void eval_stmt(struct Node* node) {
 			while (eval_expr(node->children[0]) != 0) {
 				eval_stmt(node->children[1]);
 			}
+			break;
 		
 		case STATEMENT:
 			for (int i = 0; i < node->num_children; i++) {
 				eval_stmt(node->children[i]);
 			}
+			break;
 	}
 }
 
@@ -115,6 +117,9 @@ double eval_expr(struct Node* node) {
 			break;
 		case LESSEQ:
 			return (double)(eval_expr(node->children[0]) <= eval_expr(node->children[1]));
+			break;
+		case LESS:
+			return (double)(eval_expr(node->children[0]) < eval_expr(node->children[1]));
 			break;
 		case AND:
 			return (double)(eval_expr(node->children[0]) && eval_expr(node->children[1]));

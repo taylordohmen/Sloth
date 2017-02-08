@@ -10,12 +10,10 @@ struct Var {
 	double value;
 };
 
-// vector<struct Var*> vars;
 std::unordered_map<char*, double> vars;
 
 
 void eval_stmt(struct Node* node) {
-
 
 	struct Var* var;
 	char* id;
@@ -24,14 +22,10 @@ void eval_stmt(struct Node* node) {
 		
 		case ASSIGN:
 			id = (node->children[0])->id;
-			// var->id = id;
-			// var->value = eval_expr(node->children[1]);
-			// vars.push_back(var);
 			vars[id] = node->value;
 			break;
 
 		case PRINT:
-			std::cout << "print";
 			std::cout << eval_expr(node->children[0]) << std::endl;
 			break;
 
@@ -54,6 +48,11 @@ void eval_stmt(struct Node* node) {
 		case WHILE:
 			while (node->children[0] != 0) {
 				eval_stmt(node->children[1]);
+			}
+		
+		case STATEMENT:
+			for (int i = 0; i < node->num_children; i++) {
+				eval_stmt(node->children[i]);
 			}
 	}
 }

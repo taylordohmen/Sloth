@@ -4,6 +4,7 @@
 	#include "executor.h"
 	int yywrap();
 	int yylex();
+	void eval_stmt(struct Node* node);
 	void yyerror(const char* str);
 	struct Node* result;
 %}
@@ -169,8 +170,9 @@ int main(int argc, char **argv) {
 	stdin = fopen(argv[1], "r");
 	
 	yyparse();
-	//print_tree(result, 0);
+	print_tree(result, 0);
 
+	printf("RESULT\n");
 	eval_stmt(result);
 
 	fclose(stdin);

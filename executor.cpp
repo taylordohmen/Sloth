@@ -1,28 +1,40 @@
 #include <unordered_map>
 #include <iostream>
+#include <string>
 #include "executor.h"
 #include "parser.tab.h"
 #include "parsetree.h"
 
 
 struct Var {
-	char* id;
+	std::string id;
 	double value;
 };
 
-std::unordered_map<char*, double> vars;
+std::unordered_map<std::string, double> vars;
+
+
+void printVars() {
+	std::cout << "VARIABLES" << std::endl;
+	std::unordered_map<std::string, double>::iterator it;
+	for(it = vars.begin(); it != vars.end(); it++) {
+		std::cout << it->first << "  " << it->second << std::endl;
+	}
+}
 
 
 void eval_stmt(struct Node* node) {
 
+	// printVars();
+
 	struct Var* var;
-	char* id;
+	std::string id;
 
 	switch (node->type) {
 		
 		case ASSIGN:
 			id = (node->children[0])->id;
-			vars[id] = node->value;
+			vars[id] = eval_expr(node->children[1]);
 			break;
 
 		case PRINT:
@@ -57,14 +69,6 @@ void eval_stmt(struct Node* node) {
 	}
 }
 
-// int val(string id) {
-// 	for (int i = 0; i < vars.size(); i++) {
-// 		if (vars[i]->id == id) {
-// 			return vars[i]->value;
-// 		}
-// 	}
-// }
-
 
 double eval_expr(struct Node* node) {
 
@@ -77,6 +81,7 @@ double eval_expr(struct Node* node) {
 			return vars[node->id];
 			break;
 		case INPUT:
+			std::cout << "IN INPUT BLOCK" << std::endl;
 			double s; std::cin >> s;
 			return s;
 			break;

@@ -14,9 +14,6 @@ parser.tab.h: parser.tab.c
 parser.tab.c: parser.y
 	bison -d parser.y
 
-# executor.so: executor.o
-# 	g++ -shared executor.so executor.o 
-
 executor.o: executor.cpp parsetree.o
 	g++ -c -std=c++11 executor.cpp
 

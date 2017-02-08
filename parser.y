@@ -2,9 +2,11 @@
 	#include <stdio.h>
 	#include "parsetree.h"
 	#include "executor.h"
+	#define YYDEBUG 1
 	int yywrap();
 	int yylex();
 	void eval_stmt(struct Node* node);
+	void printVars();
 	void yyerror(const char* str);
 	struct Node* result;
 %}
@@ -53,9 +55,7 @@ stmts: stmt stmts { $$ = make_node(STATEMENT, 0,"");
 	| stmt { $$ = make_node(STATEMENT, 0, ""); 
 			attach_node($$, $1);
 			}
-	| BEG stmts END { $$ = make_node(STATEMENT, 0, "");
-					attach_node($$, $2);
-					}
+	
 
 stmt: id ASSIGN expr SEMICOLON { $$ = make_node(ASSIGN, 0, "");
 								attach_node($$, $1);
@@ -64,19 +64,22 @@ stmt: id ASSIGN expr SEMICOLON { $$ = make_node(ASSIGN, 0, "");
 	| PRINT expr SEMICOLON { $$ = make_node(PRINT, 0, "");
 							attach_node($$, $2);
 							}
-	| WHILE expr DO stmts { $$ = make_node(WHILE, 0, "");
+	| WHILE expr DO stmt { $$ = make_node(WHILE, 0, "");
 							attach_node($$, $2);
 							attach_node($$, $4);
 							}
-	| IF expr THEN stmts { $$ = make_node(IF, 0, "");
+	| IF expr THEN stmt { $$ = make_node(IF, 0, "");
 							attach_node($$, $2);
 							attach_node($$, $4);
 							}
-	| IF expr THEN stmts ELSE stmts { $$ = make_node(IF, 0, "");
+	| IF expr THEN stmt ELSE stmt { $$ = make_node(IF, 0, "");
 									attach_node($$, $2);
 									attach_node($$, $4);
 									attach_node($$, $6);
 									}
+	| BEG stmts END { $$ = make_node(STATEMENT, 0, "");
+					attach_node($$, $2);
+					}
 
 expr: expr OR orterm { $$ = make_node(OR, 0, "");
 						attach_node($$, $1);
@@ -136,7 +139,7 @@ addterm: addterm TIMES factor { $$ = make_node(TIMES, 0, "");
 								}
 		| factor {}
 
-factor: NOT notterm { $$ = make_node(NOT, 0, "");
+factor: NOT factor { $$ = make_node(NOT, 0, "");
 					attach_node($$, $2);
 					}
 	| notterm {}
@@ -144,9 +147,6 @@ factor: NOT notterm { $$ = make_node(NOT, 0, "");
 notterm: OPAREN expr CPAREN { $$ = make_node(OPAREN, 0, "");
 							attach_node($$, $2);
 							}
-	| NOT notterm { $$ = make_node(NOT, 0, "");
-					attach_node($$, $2);
-					}
 	| VALUE { $$ = make_node(VALUE, $1, ""); }
 	| IDENTIFIER { $$ = make_node(IDENTIFIER, 0, $1); }
 	| INPUT { $$ = make_node(INPUT, 0, ""); }
@@ -174,6 +174,7 @@ int main(int argc, char **argv) {
 
 	printf("RESULT\n");
 	eval_stmt(result);
+	// printVars();
 
 	fclose(stdin);
 	stdin = orig_stdin;
